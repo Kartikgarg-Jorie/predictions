@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Coding Automation - E&M Coding</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <!-- <div class="nav_logo">
+                    <img src="/static/logo.jpg" alt="Logo" class="image" />
+                </div> -->
+                <h1> Medical Coding Automation</h1>
+                <p class="subtitle">E&M Office Visit Code Selector - CPT 2024 Guidelines</p>
+            </div>
+
+            <!-- <button id="logout-btn" class="btn btn-secondary logout-btn">
+                <img src="/static/icons8-logout-48.png">
+                Logout
+            </button> -->
+
+            <!-- From Uiverse.io by JaydipPrajapati1910 --> 
+<button id = "logout-btn" class="Btn">
+  
+  <div class="sign"><svg viewBox="0 0 512 512"><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path></svg></div>
+  
+  <div class="text">Logout</div>
+</button>
+
+
+
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+
+
+
+        <!-- Input Method Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" data-tab="quick">📋 Quick Assessment</button>
+            <button class="tab-button" data-tab="manual">⚙️ Manual MDM Entry</button>
+            <button class="tab-button" data-tab="time">⏱️ Time-Based</button>
+            <button class="tab-button" data-tab="upload">📄 Upload Note</button>
+        </div>
+
+        <!-- Quick Assessment Tab -->
+        <div id="quick-tab" class="tab-content active">
+            <div class="card">
+                <h2>Quick Clinical Assessment</h2>
+                <p class="help-text">Answer simple yes/no questions based on the encounter</p>
+
+                <form id="quick-form" class="form">
+                    <!-- Patient Type -->
+                    <div class="form-group">
+                        <label class="form-label">Patient Type *</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="quick-patient-type" value="new" required>
+                                <span>New Patient</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="quick-patient-type" value="established" checked>
+                                <span>Established Patient</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Problem Complexity -->
+                    <div class="form-section">
+                        <h3>Problems Addressed</h3>
+                        <div class="form-group">
+                            <label class="form-label">Number of Problems</label>
+                            <input type="number" id="quick-num-problems" min="1" max="10" value="1" class="form-input">
+                        </div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="quick-chronic-illness">
+                                <span>Patient has chronic illness(es)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="quick-exacerbation">
+                                <span>Chronic illness with exacerbation</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="quick-severe-exacerbation">
+                                <span>Chronic illness with SEVERE exacerbation</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="quick-life-threatening">
+                                <span>Condition poses threat to life/bodily function</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Data Reviewed -->
+                    <div class="form-section">
+                        <h3>Data Reviewed & Analyzed</h3>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="quick-external-records">
+                                <span>Reviewed external records/test results</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="quick-interpretation">
+                                <span>Independent interpretation of tests/images</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="quick-discussion">
+                                <span>Discussion with external physician/QHP</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Risk -->
+                    <div class="form-section">
+                        <h3>Risk of Complications</h3>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="quick-prescriptions">
+                                <span>Prescription drug management</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="quick-surgery">
+                                <span>Decision regarding surgery</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="quick-monitoring">
+                                <span>Drug therapy requiring intensive monitoring</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="quick-acute-threat">
+                                <span>Acute threat to life or bodily function</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Time -->
+                    <div class="form-section">
+                        <h3>Total Time (Optional)</h3>
+                        <div class="form-group">
+                            <label class="form-label">Total time on date of encounter (minutes)</label>
+                            <input type="number" id="quick-time" min="0" max="300" placeholder="Optional"
+                                class="form-input">
+                            <small class="help-text">Time can be used as alternative to MDM for code selection</small>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Get E&M Code</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Manual MDM Entry Tab -->
+        <div id="manual-tab" class="tab-content">
+            <div class="card">
+                <h2>Manual MDM Entry</h2>
+                <p class="help-text">Directly specify MDM complexity levels</p>
+
+                <form id="manual-form" class="form">
+                    <!-- Patient Type -->
+                    <div class="form-group">
+                        <label class="form-label">Patient Type *</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="manual-patient-type" value="new" required>
+                                <span>New Patient</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="manual-patient-type" value="established" checked>
+                                <span>Established Patient</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Problem Complexity *</label>
+                        <select id="manual-problem" class="form-input" required>
+                            <option value="minimal">Minimal (1 self-limited/minor problem)</option>
+                            <option value="low">Low (2+ minor OR 1 stable chronic)</option>
+                            <option value="moderate" selected>Moderate (Exacerbation OR 2+ stable chronic)</option>
+                            <option value="high">High (Severe exacerbation OR threat to life)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Data Complexity *</label>
+                        <select id="manual-data" class="form-input" required>
+                            <option value="minimal_or_none">Minimal/None</option>
+                            <option value="limited">Limited (External records OR historian)</option>
+                            <option value="moderate" selected>Moderate (Interpretation OR discussion)</option>
+                            <option value="extensive">Extensive (Both OR extensive review)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Risk Level *</label>
+                        <select id="manual-risk" class="form-input" required>
+                            <option value="minimal">Minimal</option>
+                            <option value="low">Low (Prescription management)</option>
+                            <option value="moderate" selected>Moderate (Procedures OR surgery decision)</option>
+                            <option value="high">High (Intensive monitoring OR threat to life)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Total Time (Optional)</label>
+                        <input type="number" id="manual-time" min="0" max="300" placeholder="Minutes"
+                            class="form-input">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Get E&M Code</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Time-Based Tab -->
+        <div id="time-tab" class="tab-content">
+            <div class="card">
+                <h2>Time-Based Selection</h2>
+                <p class="help-text">For counseling/coordination visits where time is the primary factor</p>
+
+                <form id="time-form" class="form">
+                    <div class="form-group">
+                        <label class="form-label">Patient Type *</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="time-patient-type" value="new" required>
+                                <span>New Patient</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="time-patient-type" value="established" checked>
+                                <span>Established Patient</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Total Time on Date of Encounter *</label>
+                        <input type="number" id="time-minutes" min="1" max="300" required placeholder="Minutes"
+                            class="form-input">
+                        <small class="help-text">Include all time spent on patient care on the date of encounter</small>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>Time Ranges (Approximate)</h4>
+                        <ul>
+                            <li><strong>New Patient:</strong> 20, 35, 50, 75+ minutes</li>
+                            <li><strong>Established:</strong> 5, 15, 25, 35, 50+ minutes</li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Get E&M Code</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Upload Tab -->
+        <div id="upload-tab" class="tab-content">
+            <div class="card">
+                <h2>Upload Clinical Note</h2>
+                <p class="help-text">Upload a text file containing clinical documentation</p>
+
+                <form id="upload-form" class="form">
+                    <div class="form-group">
+                        <label class="form-label">Clinical Note File</label>
+                        <div class="file-upload">
+                            <input type="file" id="note-file" accept=".txt,.doc,.docx,.pdf" class="file-input">
+                            <label for="note-file" class="file-label">
+                                <span id="file-name">Choose file or drag here</span>
+                            </label>
+                        </div>
+                        <small class="help-text">Accepted formats: TXT, DOC, DOCX, PDF</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Upload Note</button>
+                </form>
+
+                <div id="upload-result" class="result-box" style="display: none;">
+                    <h3>File Uploaded</h3>
+                    <div id="upload-details"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="card" style="display: none;">
+            <h2>Suggested E&M Code</h2>
+
+            <div class="code-result">
+                <div class="code-display">
+                    <div class="code-number" id="result-code">99214</div>
+                    <div class="code-description" id="result-description">Office visit, established patient</div>
+                </div>
+
+                <div class="result-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Patient Type:</span>
+                        <span class="detail-value" id="result-patient-type">Established</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Selection Method:</span>
+                        <span class="detail-value" id="result-method">MDM</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">MDM Level:</span>
+                        <span class="detail-value" id="result-mdm-level">Moderate</span>
+                    </div>
+                    <div class="detail-row" id="result-time-row">
+                        <span class="detail-label">Time:</span>
+                        <span class="detail-value" id="result-time">35 minutes</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Confidence:</span>
+                        <span class="detail-value confidence" id="result-confidence">HIGH</span>
+                    </div>
+                </div>
+
+                <div class="rationale-box">
+                    <h3>Rationale</h3>
+                    <p id="result-rationale">Code selected based on moderate complexity MDM.</p>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Processing...</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Medical Coding Automation | CPT 2024 Guidelines | For Professional Use Only</p>
+            <p><small>Disclaimer: This tool assists medical coders but should not replace professional judgment. All
+                    codes must be reviewed by qualified medical coding professionals.</small></p>
+        </div>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>

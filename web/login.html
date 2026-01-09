@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>E&M Coding Automation - Login</title>
+  <link rel="icon" type="image/png" href="/static/logo.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Left side - Branding */
+    .branding-side {
+      flex: 1;
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .branding-side::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      top: -200px;
+      right: -200px;
+    }
+
+    .branding-side::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+      bottom: -100px;
+      left: -100px;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #1e40af;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .branding-content {
+      text-align: center;
+      z-index: 1;
+    }
+
+    .branding-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .branding-content p {
+      font-size: 1.125rem;
+      opacity: 0.95;
+      line-height: 1.6;
+      max-width: 400px;
+    }
+
+    /* Right side - Forms */
+    .form-side {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+    }
+
+    .form-wrapper {
+      background: white;
+      padding: 3rem;
+      border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .form-header h2 {
+      font-size: 2rem;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-header p {
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    .form-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      background: #f1f5f9;
+      padding: 0.5rem;
+      border-radius: 12px;
+    }
+
+    .tab-button {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      background: transparent;
+      color: #64748b;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .tab-button.active {
+      background: white;
+      color: #1e40af;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .forms {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .form.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #334155;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .form-group input.error {
+      border-color: #ef4444;
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: auto;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      color: #64748b;
+      cursor: pointer;
+    }
+
+    .forgot-password {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+
+    .submit-button {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .submit-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .submit-button:active {
+      transform: translateY(0);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 1.5rem 0;
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    .divider span {
+      padding: 0 1rem;
+    }
+
+    .social-login {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .social-button {
+      padding: 0.875rem;
+      border: 2px solid #e2e8f0;
+      background: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .social-button:hover {
+      border-color: #cbd5e1;
+      background: #f8fafc;
+    }
+
+    .terms {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    .terms a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+
+    .terms a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .branding-side {
+        flex: none;
+        padding: 2rem;
+      }
+
+      .branding-content h1 {
+        font-size: 1.75rem;
+      }
+
+      .branding-content p {
+        font-size: 1rem;
+      }
+
+      .form-wrapper {
+        padding: 2rem;
+      }
+      .image{
+        margin-top: 20px;
+      }
+
+      
+    }
+
+    /* Success animation */
+    .success-checkmark {
+      display: none;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .success-checkmark.show {
+      display: block;
+      animation: scaleIn 0.5s ease;
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0);
+      }
+
+      to {
+        transform: scale(1);
+      }
+    }
+
+    .checkmark-circle {
+      stroke: #22c55e;
+      stroke-width: 2;
+      fill: none;
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      animation: stroke 0.6s ease forwards;
+    }
+
+    @keyframes stroke {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    .checkmark-check {
+      stroke: #22c55e;
+      stroke-width: 2;
+      fill: none;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: stroke 0.3s 0.5s ease forwards;
+    }
+
+    .image {
+      height: 150px;
+      /* or whatever size you want */
+      width: auto;
+      border-radius: 35px;
+      /* keeps the aspect ratio clean */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Left Side - Branding -->
+    <div class="branding-side">
+      <div class="logo">
+        <img src="/static/logo.jpg" alt="Logo" class="image" />
+      </div>
+      <div class="branding-content">
+        <h1>E&M Coding Automation</h1>
+        <p>Streamline your medical coding process with intelligent automation and precision</p>
+      </div>
+    </div>
+
+    <!-- Right Side - Forms -->
+    <div class="form-side">
+      <div class="form-container">
+        <div class="form-wrapper">
+          <div class="form-header">
+            <h2>Welcome Back</h2>
+            <p>Enter your credentials to access your account</p>
+          </div>
+
+          <div class="form-tabs">
+            <button class="tab-button active" onclick="switchTab('login')">Login</button>
+            <button class="tab-button" onclick="switchTab('signup')">Sign Up</button>
+          </div>
+
+          <!-- Success Message (hidden by default) -->
+          <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle" cx="26" cy="26" r="25" />
+            <path class="checkmark-check" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+          </svg>
+
+          <div class="forms">
+            <!-- Login Form -->
+            <form id="loginForm" class="form active" onsubmit="handleLogin(event)">
+              <div class="form-group">
+                <label for="loginEmail">Email Address</label>
+                <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                <span class="error-message" id="loginEmailError">Please enter a valid email</span>
+              </div>
+
+              <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                <span class="error-message" id="loginPasswordError">Password must be at least 6 characters</span>
+              </div>
+              <div class="form-options">
+                <div class="checkbox-group">
+                  <input type="checkbox" id="rememberMe">
+                  <label for="rememberMe">Remember me</label>
+                </div>
+                <a href="#" class="forgot-password">Forgot password?</a>
+              </div>
+
+              <button type="submit" class="submit-button">Sign In</button>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signupForm" class="form" onsubmit="handleSignup(event)">
+              <div class="form-group">
+                <label for="signupName">Full Name</label>
+                <input type="text" id="signupName" placeholder="your name" required>
+                <span class="error-message" id="signupNameError">Please enter your full name</span>
+              </div>
+
+              <div class="form-group">
+                <label for="signupEmail">Email Address</label>
+                <input type="email" id="signupEmail" placeholder="user@example.com" required>
+                <span class="error-message" id="signupEmailError">Please enter a valid email</span>
+              </div>
+
+              <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" placeholder="Create a strong password" required>
+                <span class="error-message" id="signupPasswordError">Password must be at least 6 characters</span>
+              </div>
+
+              <div class="form-group">
+                <label for="signupConfirmPassword">Confirm Password</label>
+                <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
+                <span class="error-message" id="signupConfirmError">Passwords do not match</span>
+              </div>
+
+              <button type="submit" class="submit-button">Create Account</button>
+
+              <div class="terms">
+                By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = "http://localhost:8000";
+
+    // Tab switching
+    function switchTab(tab) {
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const formHeader = document.querySelector('.form-header');
+
+      // Update active tab button
+      tabButtons.forEach(button => button.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Switch forms
+      if (tab === 'login') {
+        loginForm.classList.add('active');
+        signupForm.classList.remove('active');
+        formHeader.querySelector('h2').textContent = 'Welcome Back';
+        formHeader.querySelector('p').textContent = 'Enter your credentials to access your account';
+      } else {
+        signupForm.classList.add('active');
+        loginForm.classList.remove('active');
+        formHeader.querySelector('h2').textContent = 'Create Account';
+        formHeader.querySelector('p').textContent = 'Sign up to start using E&M Coding Automation';
+      }
+
+      // Clear error messages
+      clearErrors();
+    }
+
+    // Clear all error messages
+    function clearErrors() {
+      document.querySelectorAll('.error-message').forEach(msg => {
+        msg.classList.remove('show');
+      });
+      document.querySelectorAll('input').forEach(input => {
+        input.classList.remove('error');
+      });
+    }
+
+    // Validate email
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
+    // Show error message
+    function showError(inputId, errorId) {
+      document.getElementById(inputId).classList.add('error');
+      const el = document.getElementById(errorId);
+      el.textContent = msg;
+      el.classList.add('show');
+    }
+
+
+    function showSuccess(message) {
+      const checkmark = document.querySelector('.success-checkmark');
+      const forms = document.querySelector('.forms');
+      const header = document.querySelector('.form-header');
+
+      checkmark.classList.add('show');
+      forms.style.display = 'none';
+      header.querySelector('h2').textContent = 'Success!';
+      header.querySelector('p').textContent = message;
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      clearErrors();
+
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      if (!validateEmail(email)) {
+        showError('loginEmail', 'loginEmailError', 'Invalid email');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showError('loginPassword', 'loginPasswordError', data.detail || "Login failed");
+          return;
+        }
+
+        //  STORE JWT
+        localStorage.setItem("access_token", data.access_token);
+
+        showSuccess("Login successful! Redirecting...");
+
+        setTimeout(() => {
+          window.location.href = "/home";
+        }, 1200);
+
+      } catch (err) {
+        alert("Backend server not reachable");
+      }
+    }
+
+    // Handle signup
+    async function handleSignup(event) {
+      event.preventDefault();
+      clearErrors();
+
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const confirm = document.getElementById('signupConfirmPassword').value;
+
+      if (password !== confirm) {
+        showError('signupConfirmPassword', 'signupConfirmError', 'Passwords do not match');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/signup`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+            confirm_password: confirm
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          alert(data.detail || "Signup failed");
+          return;
+        }
+
+        showSuccess("Account created! Please log in.");
+
+        setTimeout(() => switchTab('login'), 1500);
+
+      } catch (err) {
+        alert("Backend server not reachable");
+      }
+    }
+
+    // Show success message
+    function showSuccess(message) {
+      const checkmark = document.querySelector('.success-checkmark');
+      const forms = document.querySelector('.forms');
+      const formHeader = document.querySelector('.form-header');
+
+      checkmark.classList.add('show');
+      forms.style.display = 'none';
+      formHeader.querySelector('h2').textContent = 'Success!';
+      formHeader.querySelector('p').textContent = message;
+
+      // Reset after animation
+      setTimeout(() => {
+        checkmark.classList.remove('show');
+        forms.style.display = 'block';
+      }, 3000);
+    }
+
+
+    // Real-time validation
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', function () {
+        if (this.classList.contains('error')) {
+          this.classList.remove('error');
+          const errorId = this.id + 'Error';
+          const errorElement = document.getElementById(errorId);
+          if (errorElement) {
+            errorElement.classList.remove('show');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
